@@ -13,12 +13,12 @@ export default {
         }
     },
     methods: {
-        getProjects() {
+        getProjectsFirstPage() {
             this.loading = true;
             axios.get(this.apiUrl).then((response) => {
                 this.projects = response.data.results.data;
                 this.projectCurrentPage = response.data.results.current_page;
-                this.projectTotalPage = response.data.results.lastpage;
+                this.projectTotalPage = response.data.results.last_page;
                 this.loading = false;
             }).catch(err => {
                 this.loading = false
@@ -32,21 +32,48 @@ export default {
                     params: {
                         page: pageNumber
                     }
-                }
-            }
-        }
-    },
-        mounted() {
-            this.getProjects();
+                };
 
-        }
+                this.loading = true;
+                axios.get(this.apiUrl, config).then(response => {
+                    console.log(response.data);
+                    this.project = response.data.results.data; 
+                    this.projectCurrentPage = response.data.results.current_page;
+                    this.projectTotalPage = response.data.results.last_page;
+                    this.loading = false;
+                }).catch(err => {
+                    this.loading = false;
+                    this.loadingError = err.message;
+                });
+
+            } else {
+                console.error("Non ci sono più pagine");
+            }
+
+        },
+        getProjectPrevPage() {
+
+            this.getProjectsPage(this.projectCurrentPage - 1);
+        },
+        getProjectNextPage() {
+
+            this.getProjectsPage(this.projectCurrentPage + 1);
+        },
+    },
+    mounted() {
+        this.getProjectsFirstPage();
+
+    }
 }
 </script>
 
 <template>
     <main>
-
+        <h2>progetti:  <span v-if="projectTotalPage>0">{{ projectCurrentPage }} di {{ projectTotalPage }}</span></h2>
         <h3 v-if="loading">Errore caricamento dati</h3>
+        <a class="button" @click="getProjectPrevPage">Pagina precedente</a><br>
+        <a class="button" @click="getProjectsPage(pageNumber)" v-for="pageNumber in projectTotalPage">{{ pageNumber }}</a><br>
+        <a class="button" @click="getProjectNextPage">Pagina successiva</a>
         <template v-for="project in projects">
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
@@ -64,3 +91,10 @@ export default {
         </template>
     </main>
 </template>
+
+<style>
+
+a {
+    cursor: pointer;
+}
+</style>
