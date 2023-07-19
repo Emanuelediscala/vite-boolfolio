@@ -3,7 +3,7 @@ import {createRouter,createWebHistory} from 'vue-router';
 import AppHome from './pages/AppHome.vue';
 import AppContactUs from './pages/AppContactUs.vue';
 import ProjectCard from './pages/ProjectCard.vue';
-
+import ErrorPage from './pages/ErrorPage.vue'
 const router = createRouter({
     history:createWebHistory(),
     routes : [
@@ -23,6 +23,12 @@ const router = createRouter({
             path: "/project-card",
             name: "project-card",
             component: ProjectCard
+
+        },
+        {
+            path: "/error:code",
+            name: "error",
+            component: ErrorPage
 
         },
 

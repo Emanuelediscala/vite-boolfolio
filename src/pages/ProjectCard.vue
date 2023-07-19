@@ -21,7 +21,8 @@ export default {
                 this.projectTotalPage = response.data.results.last_page;
                 this.loading = false;
             }).catch(err => {
-                this.loading = false
+                this.loading = false;
+                this.$router.push({name:'error', params: {code:404}})
             });
         },
         getProjectsPage(pageNumber) {
@@ -37,7 +38,7 @@ export default {
                 this.loading = true;
                 axios.get(this.apiUrl, config).then(response => {
                     console.log(response.data);
-                    this.project = response.data.results.data;
+                    this.projects = response.data.results.data;
                     this.projectCurrentPage = response.data.results.current_page;
                     this.projectTotalPage = response.data.results.last_page;
                     this.loading = false;
@@ -53,7 +54,8 @@ export default {
         },
         getProjectPrevPage() {
 
-            this.getProjectsPage(this.projectCurrentPage - 1);
+            this.getProjectsPage(this.projectCurrentPage);
+            console.log(this.projectCurrentPage);
         },
         getProjectNextPage() {
 
