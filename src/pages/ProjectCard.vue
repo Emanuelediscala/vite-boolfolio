@@ -12,9 +12,8 @@ export default {
             projects: [],
             projectCurrentPage: 0,
             projectTotalPage: 0,
-            singlePost:
-            { label: "singolo-post", name:"single-project", id:""}
-            
+
+
         }
     },
     methods: {
@@ -27,7 +26,7 @@ export default {
                 this.loading = false;
             }).catch(err => {
                 this.loading = false;
-                this.$router.push({name:'error', params: {code:404}})
+                this.$router.push({ name: 'error', params: { code: 404 } })
             });
         },
         getProjectsPage(pageNumber) {
@@ -67,7 +66,7 @@ export default {
             this.getProjectsPage(this.projectCurrentPage + 1);
         },
         getsinglepost(id) {
-            return"<router-link :to='{ name: i.name, id: {id:i.id} }'>{{ i.label }}</router-link>"
+            return "<router-link :to='{ name: i.name, id: {id:i.id} }'>{{ i.label }}</router-link>"
 
         }
     },
@@ -87,20 +86,24 @@ export default {
         }}</a><br>
         <a class="button" @click="getProjectNextPage">Pagina successiva</a>
         <div class="d-flex">
-            <template v-for="(project,i) in projects">
+            <template v-for="(project, i) in projects">
+                <router-link :to="{ name: 'single_project', params: { id: project.id } }" tag="div" class="card" style="width: 18rem;">
                 <div class="card" style="width: 18rem;">
-                    <div class="card-body" @click="getsinglepost(i)">
-                        <h5 class="card-title">{{ project.title }}</h5>
-                        <h4 class="card-title">{{ project.type ? project.type.name : "Nessuna" }}</h4>
-                        <h4>Tecnologies:
-                            <span class="text-danger" v-if="project.tecnologies.length"
-                                v-for="tecnologia in project.tecnologies">{{ tecnologia.name }}&nbsp;</span>
-                            <span class="text-warning" v-else>Nessuna Tecnologia</span>
-                        </h4>
-                        <p class="card-text">{{ project.content }}</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                                {{ project.title }}
+                            </h5>
+                            <h4 class="card-title">{{ project.type ? project.type.name : "Nessuna" }}</h4>
+                            <h4>Tecnologies:
+                                <span class="text-danger" v-if="project.tecnologies.length"
+                                    v-for="tecnologia in project.tecnologies">{{ tecnologia.name }}&nbsp;</span>
+                                <span class="text-warning" v-else>Nessuna Tecnologia</span>
+                            </h4>
+                            <p class="card-text">{{ project.content }}</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
                     </div>
                 </div>
+            </router-link>
             </template>
         </div>
     </main>
@@ -109,5 +112,7 @@ export default {
 <style>
 a {
     cursor: pointer;
+    text-decoration: none !important;
 }
+
 </style>

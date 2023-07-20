@@ -20,7 +20,6 @@ export default {
   <header>
     <template v-for="i in navLinks">
       <router-link :to="{ name: i.name, params: {code:i.code} }">{{ i.label }}</router-link>
-      
     </template>
   </header>
 </template>
