@@ -1,7 +1,9 @@
 <script>
 import axios from "axios"
+import SingleProject from "./SingleProject.vue"
 export default {
     name: "ProjectCard",
+    components: SingleProject,
     data() {
         return {
             chiave: "valore",
@@ -9,7 +11,10 @@ export default {
             loading: false,
             projects: [],
             projectCurrentPage: 0,
-            projectTotalPage: 0
+            projectTotalPage: 0,
+            singlePost:
+            { label: "singolo-post", name:"single-project", id:""}
+            
         }
     },
     methods: {
@@ -61,6 +66,10 @@ export default {
 
             this.getProjectsPage(this.projectCurrentPage + 1);
         },
+        getsinglepost(id) {
+            return"<router-link :to='{ name: i.name, id: {id:i.id} }'>{{ i.label }}</router-link>"
+
+        }
     },
     mounted() {
         this.getProjectsFirstPage();
@@ -78,9 +87,9 @@ export default {
         }}</a><br>
         <a class="button" @click="getProjectNextPage">Pagina successiva</a>
         <div class="d-flex">
-            <template v-for="project in projects">
+            <template v-for="(project,i) in projects">
                 <div class="card" style="width: 18rem;">
-                    <div class="card-body">
+                    <div class="card-body" @click="getsinglepost(i)">
                         <h5 class="card-title">{{ project.title }}</h5>
                         <h4 class="card-title">{{ project.type ? project.type.name : "Nessuna" }}</h4>
                         <h4>Tecnologies:

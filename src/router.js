@@ -21,7 +21,7 @@ const router = createRouter({
 
         },
         {
-            path: "/project-card",
+            path: "/projects-card",
             name: "project-card",
             component: ProjectCard
 
