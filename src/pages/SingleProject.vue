@@ -53,6 +53,7 @@ beforeRouteUpdate(to,from) {
 
 <template>
  <section v-if="projects">
+    <img :src="store.storageUrl + projects.image" />
         <h1>{{ projects.title }}</h1>
         <h2>Categoria: {{ projects.type ? projects.type.name : "Nessuna" }}</h2>
         <h2>Tags: 
